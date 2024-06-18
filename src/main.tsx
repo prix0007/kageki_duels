@@ -10,7 +10,7 @@ import "@fontsource/permanent-marker/400.css";
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <Theme accentColor='orange'>
+    <Theme accentColor='orange' hasBackground={false}>
       <App />
     </Theme>
   </React.StrictMode>,

@@ -1,60 +1,51 @@
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useMemo, useRef, useState } from "react";
+import { motion, AnimatePresence, HTMLMotionProps, useDragControls } from "framer-motion";
 
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import { GoDotFill } from "react-icons/go";
-import { Flex, IconButton } from "@radix-ui/themes";
+import { Box, Flex, IconButton } from "@radix-ui/themes";
+import KagekiCard, { IKagekiCard } from "../card/card";
 
 type ICarousel = {
   images: string[]
 }
 
+const MotionCard: React.FC<HTMLMotionProps<"div"> & { kageki: IKagekiCard }>= ({ 
+  kageki,
+  ...rest
+}) => {
+  return <motion.div {...rest}>
+    <KagekiCard {...kageki} />
+  </motion.div>
+}
+
 const Carousel:React.FC<ICarousel> = ({ images }) => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  const handleNext = () => {
-    setCurrentIndex((prevIndex) =>
-      (prevIndex + 1) % images.length 
-    );
-  };
-  const handlePrevious = () => {
-    setCurrentIndex((prevIndex) =>
-      (prevIndex + images.length - 1) % images.length 
-    );
-  };
-
-  const handleDotClick = (index: number) => {
-    setCurrentIndex(index);
-  };
-
-  console.log(currentIndex)
+  const controls = useDragControls()
 
   return (
-    <div className="carousel">
-      <img
-        key={currentIndex}
-        src={images[currentIndex]}
-      />
-      <Flex className="slide_direction">
-        <IconButton className="left" onClick={handlePrevious}>
-          <FaAngleLeft />
-        </IconButton>
-        <IconButton className="right" onClick={handleNext}>
-          <FaAngleRight />
-        </IconButton>
-      </Flex>
-      <Flex className="indicator">
-        {images.map((_, index) => (
-          <span
-            key={index}
-            className={`dot ${currentIndex === index ? "active" : ""}`}
-            onClick={() => handleDotClick(index)}
-          >
-            <GoDotFill /> 
-          </span>
-        ))}
-      </Flex>
-    </div>
+    <Box 
+      width={"100%"} 
+      overflow={"hidden"} 
+      p={"4"} 
+      style={{ border: "1px solid black"}}
+    >
+      <AnimatePresence>
+        <motion.div 
+          drag="x" 
+          dragControls={controls} 
+          dragConstraints={{
+            right: 0,
+            left: -1 * ((images.length - 4) * 240)
+          }}
+        >
+          <Flex gap={"4"}>
+            {images.map(image => {
+              return <MotionCard kageki={{ imageUrl:image , title:"Motion", description:"Kageki Card" }} />
+            })}
+          </Flex>
+        </motion.div>
+      </AnimatePresence>
+    </Box>
   );
 
 }

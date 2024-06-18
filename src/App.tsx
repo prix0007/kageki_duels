@@ -10,7 +10,7 @@ import { Box } from '@radix-ui/themes';
 export function App() {
   return (
     <StarknetProvider>
-      <Box maxWidth={"1280px"} mx={"auto"}>
+      <Box maxWidth={"1280px"} mx={"auto"} className='main-wrapper'>
         <Navbar />
         <Box minHeight={"80vh"}>
           <RouterProvider router={router} />
