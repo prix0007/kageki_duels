@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Flex, Heading } from "@radix-ui/themes";
+import { Box, Flex, Heading, Text } from "@radix-ui/themes";
 import Carousel from "../../components/carousel/carousel";
 
 type IHome = {}
@@ -15,8 +15,12 @@ const Home:React.FC<IHome> = () => {
 	];
 	return <Flex direction="column">
 		<Box p={"6"}>
-		<Heading as="h1">Kageki</Heading>		
-		<Heading as="h4">On-Chain PvP Party based Game</Heading>		
+			<Heading as="h1">Kageki</Heading>		
+			<Heading as="h4">On-Chain PvP Party based Game</Heading>		
+		</Box>
+		<Box p={"6"}>
+			<Text>Deployed Contracts: </Text>		
+			<Text>0x...</Text>		
 		</Box>
 		<Box>
 			<Carousel images={images} />
