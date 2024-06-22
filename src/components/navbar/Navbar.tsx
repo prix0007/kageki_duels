@@ -7,7 +7,7 @@ import Dynamic from "../dynamic/dynamic";
 const Navbar:React.FC = () => {
   return <Flex direction={{ md: "row", sm: "column"}} justify={"between"} px={"3"} py={"1"} align={"center"}>
     <Logo />
-    <Flex direction={{ md: "row", sm: "column"}} gap={"3"} height={"min-content"} align={"center"}>
+    <Flex direction={{ md: "row", sm: "column"}} gap={"3"} height={"min-content"} align={"center"} >
       <ConnectWallet />
       <Dynamic />
     </Flex>
