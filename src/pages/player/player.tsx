@@ -1,10 +1,11 @@
-import { Box, Button, Flex, Grid, Heading, ScrollArea, Separator, Tooltip } from "@radix-ui/themes";
+import { Badge, Box, Button, Flex, Grid, Heading, ScrollArea, Separator, Tooltip, Text } from "@radix-ui/themes";
 import React, { useMemo, useState } from "react";
 import { Entity, getComponentValue } from "@dojoengine/recs";
 import { getEntityIdFromKeys } from "@dojoengine/utils";
 import { useComponentValue } from "@dojoengine/react";
 
 import { GrPowerReset } from "react-icons/gr";
+import { GiCrossedSwords } from "react-icons/gi";
 import { MdAddCircleOutline } from "react-icons/md";
 import { useDojo } from '../../dojo/useDojo';
 import KagekiCard from "../../components/card/card";
@@ -53,7 +54,14 @@ const Player:React.FC = () => {
 		}
 		return partiesFetched
 		}, [player, PlayerParty])
-	console.log(parties)
+	
+	const battlingParties = useMemo(() => {
+		let total = 0;
+		parties?.forEach(party => {
+		if(party?.is_active) { total += 1}
+		})
+		return total 
+	}, [parties])
 
 	const handleCreateNewParty =  async () => {
 		try {
@@ -66,8 +74,22 @@ const Player:React.FC = () => {
 		}
 	}
 
+
 	return <Box p={"2"}>
 		<Heading my={"2"}>Logged in as: {account.account.address}</Heading>
+		<Box p={"4"}>
+			<Flex align={"center"} direction={"column"} justify={"center"}  mb={"2"}>
+				<Text>My Stats</Text>
+				<Separator size={"3"} />
+			</Flex>
+			<Flex justify={"center"} gap={"2"}>
+				<Badge color="blue">Total Battles: {player?.battles?.toString()}</Badge>
+				<Badge color="green">Total Wins: {player?.wins?.toString()}</Badge>
+				<Badge color="red">Total Loses: {player?.loses?.toString()}</Badge>
+				<Badge color="crimson">Total Parties: {player?.party_count?.toString()}</Badge>
+				<Badge color="crimson">Total Parties in <GiCrossedSwords />: {battlingParties}</Badge>
+			</Flex>
+		</Box>
 		<Separator size={"4"} />
 		<Box p={"4"}>
 			<Flex justify={"between"}>

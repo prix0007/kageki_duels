@@ -44,12 +44,11 @@ const Party: React.FC<IParty> = ({player, partyId, is_active, card1, card3, card
   }, [card1, card2, card3, card4, Card, player])
 
   const handleToggleParty = async () => {
-    console.log("I am called")
-    if(partyId) 
-      await toggleParty(account?.account, partyId);
+    await toggleParty(account?.account, partyId ?? BigInt(0));
+    // Temp solution
+    window.location.reload()
   }
 
-  console.log({ cards })
   return <Flex flexGrow={"1"} direction={"column"} p={"2"} style={{ background: "var(--orange-a4)"}}>
     <Flex align={"center"} gap={"3"} p={"4"}>
       <Heading>

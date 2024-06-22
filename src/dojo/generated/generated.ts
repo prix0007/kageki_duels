@@ -49,6 +49,7 @@ export async function setupWorld(provider: DojoProvider) {
         }
 
         const toggleParty = async ({ account, id }: { account: AccountInterface, id: bigint }) => {
+            console.log("Toggle Party Called")
             try {
                 return await provider.execute(account, {
                     contractName: "actions",
