@@ -40,27 +40,27 @@ export async function setup({ ...config }: DojoConfig) {
     const client = await setupWorld(dojoProvider);
 
     // create burner manager
-    const burnerManager = new BurnerManager({
-        masterAccount: new Account(
-            {
-                nodeUrl: config.rpcUrl,
-            },
-            config.masterAddress,
-            config.masterPrivateKey
-        ),
-        accountClassHash: config.accountClassHash,
-        rpcProvider: dojoProvider.provider,
-        feeTokenAddress: config.feeTokenAddress,
-    });
-
-    try {
-        await burnerManager.init();
-        if (burnerManager.list().length === 0) {
-            await burnerManager.create();
-        }
-    } catch (e) {
-        console.error(e);
-    }
+    // const burnerManager = new BurnerManager({
+    //     masterAccount: new Account(
+    //         {
+    //             nodeProvider: config.rpcUrl,
+    //         },
+    //         config.masterAddress,
+    //         config.masterPrivateKey
+    //     ),
+    //     accountClassHash: config.accountClassHash,
+    //     rpcProvider: dojoProvider.provider,
+    //     feeTokenAddress: config.feeTokenAddress,
+    // });
+    //
+    // try {
+    //     await burnerManager.init();
+    //     if (burnerManager.list().length === 0) {
+    //         await burnerManager.create();
+    //     }
+    // } catch (e) {
+    //     console.error(e);
+    // }
 
     return {
         client,
@@ -79,7 +79,6 @@ export async function setup({ ...config }: DojoConfig) {
         },
         config,
         dojoProvider,
-        burnerManager,
         toriiClient,
         sync,
     };

@@ -1,0 +1,6 @@
+.party-cards-wrapper {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	gap: var(--space-4);
+}

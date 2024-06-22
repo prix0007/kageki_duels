@@ -7,14 +7,18 @@ import type { IWorld } from "./generated/generated";
 
 export type SystemCalls = ReturnType<typeof createSystemCalls>;
 
+function randomIntFromInterval(min, max) { // min and max included 
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
 export function createSystemCalls(
     { client }: { client: IWorld },
     _contractComponents: ContractComponents,
     { PlayerParty, Player, Stage, StageSettings, Card, CardCount, Randomness }: ClientComponents
 ) {
-    const spawn = async (account: AccountInterface) => {
+    const spawnPlayer = async (account: AccountInterface) => {
         try {
-            const { transaction_hash } = await client.actions.spawn({
+            const { transaction_hash } = await client.player_actions.spawnPlayer({
                 account,
             });
 
@@ -30,61 +34,68 @@ export function createSystemCalls(
         }
     };
 
-    // const move = async (account: AccountInterface, direction: Direction) => {
-    //     const entityId = getEntityIdFromKeys([
-    //         BigInt(account.address),
-    //     ]) as Entity;
-    //
-    //     // const positionId = uuid();
-    //     // Position.addOverride(positionId, {
-    //     //     entity: entityId,
-    //     //     value: {
-    //     //         player: BigInt(entityId),
-    //     //         vec: updatePositionWithDirection(
-    //     //             direction,
-    //     //             getComponentValue(Position, entityId) as any
-    //     //         ).vec,
-    //     //     },
-    //     // });
-    //
-    //     // const movesId = uuid();
-    //     // Moves.addOverride(movesId, {
-    //     //     entity: entityId,
-    //     //     value: {
-    //     //         player: BigInt(entityId),
-    //     //         remaining:
-    //     //             (getComponentValue(Moves, entityId)?.remaining || 0) - 1,
-    //     //     },
-    //     // });
-    //
-    //     try {
-    //         const { transaction_hash } = await client.actions.move({
-    //             account,
-    //             direction,
-    //         });
-    //
-    //         await account.waitForTransaction(transaction_hash, {
-    //             retryInterval: 100,
-    //         });
-    //
-    //         // console.log(
-    //         //     await account.waitForTransaction(transaction_hash, {
-    //         //         retryInterval: 100,
-    //         //     })
-    //         // );
-    //
-    //         await new Promise((resolve) => setTimeout(resolve, 1000));
-    //     } catch (e) {
-    //         console.log(e);
-    //         // Position.removeOverride(positionId);
-    //         // Moves.removeOverride(movesId);
-    //     } finally {
-    //         // Position.removeOverride(positionId);
-    //         // Moves.removeOverride(movesId);
-    //     }
-    // };
+    const createCharacter = async (account: AccountInterface) => {
+        const random = randomIntFromInterval(1, 1000);
+        try {
+            const { transaction_hash } = await client.player_actions.createCharacter({
+                account,
+                randomness: random.toString()
+            });
+
+            console.log(
+                await account.waitForTransaction(transaction_hash, {
+                    retryInterval: 1000,
+                })
+            );
+
+            await new Promise((resolve) => setTimeout(resolve, 1000));
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
+    const createParty = async (account: AccountInterface,  ids: bigint[]) => {
+        try {
+            const { transaction_hash } = await client.player_actions.createParty({
+                account,
+                ids
+            });
+
+            console.log(
+                await account.waitForTransaction(transaction_hash, {
+                    retryInterval: 1000,
+                })
+            );
+
+            await new Promise((resolve) => setTimeout(resolve, 1000));
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
+    const toggleParty = async (account: AccountInterface,  party_id: bigint) => {
+        try {
+            const { transaction_hash } = await client.player_actions.toggleParty({
+                account,
+                id: party_id
+            });
+
+            console.log(
+                await account.waitForTransaction(transaction_hash, {
+                    retryInterval: 1000,
+                })
+            );
+
+            await new Promise((resolve) => setTimeout(resolve, 1000));
+        } catch (e) {
+            console.log(e);
+        }
+    };
 
     return {
-        spawn,
+        spawnPlayer,
+        createCharacter,
+        createParty,
+        toggleParty
     };
 }
