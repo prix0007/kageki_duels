@@ -13,10 +13,11 @@ import Party from "../../components/party/party";
 
 const Player:React.FC = () => {
 
-	const { setup: {
-		systemCalls: { createCharacter, createParty },
-		clientComponents: { Player, PlayerParty, Card, CardCount },
-	},
+	const { 
+		setup: {
+			systemCalls: { createCharacter, createParty },
+			clientComponents: { Player, PlayerParty, Card, CardCount },
+		},
 		account,
 	} = useDojo();
 

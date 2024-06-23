@@ -49,7 +49,6 @@ export async function setupWorld(provider: DojoProvider) {
         }
 
         const toggleParty = async ({ account, id }: { account: AccountInterface, id: bigint }) => {
-            console.log("Toggle Party Called")
             try {
                 return await provider.execute(account, {
                     contractName: "actions",
@@ -64,30 +63,28 @@ export async function setupWorld(provider: DojoProvider) {
 
         return { spawnPlayer, createCharacter, createParty, toggleParty }
 
-        // async makeParty(id1: bigint, id2: bigint, id3: bigint, id4: bigint): Promise<void> {
-        //     try {
-        //         await this.execute("make_party", [id1,
-        //             id2,
-        //             id3,
-        //             id4])
-        //     } catch (error) {
-        //         console.error("Error executing makeParty:", error);
-        //         throw error;
-        //     }
-        // }
-        //
-        // async createCharacter(player: string, randomness: string): Promise<void> {
-        //     try {
-        //         await this.execute("create_character", [player,
-        //             randomness])
-        //     } catch (error) {
-        //         console.error("Error executing createCharacter:", error);
-        //         throw error;
-        //     }
-        // }
+    }
 
+    function stage_actions() {
+        const battleParties = async ({ 
+            account, partyId1, partyId2, randomness 
+        }: { account: AccountInterface, partyId1: bigint, partyId2: bigint, randomness: bigint   }) => {
+            try {
+                return await provider.execute(account, {
+                    contractName: "actions",
+                    entrypoint: "stage_creation_battle_maker",
+                    calldata: [partyId1, partyId2, randomness],
+                });
+            } catch (error) {
+                console.error("Error executing spawn:", error);
+                throw error;
+            }
+        }
+
+        return { battleParties }
     }
     return {
         player_actions: player_actions(),
+        stage_actions: stage_actions(),
     };
 }

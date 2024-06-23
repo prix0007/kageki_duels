@@ -1,0 +1,16 @@
+.selected {
+	border: 1px solid var(--orange-5);
+	-webkit-box-shadow: 10px 10px 5px 0px rgba(184, 103, 4, 1);
+	-moz-box-shadow: 10px 10px 5px 0px rgba(184, 103, 4, 1);
+	box-shadow: 10px 10px 5px 0px rgba(184, 103, 4, 1);
+}
+
+.card-box {
+	background: var(--gray-5);
+	transition: all 0.1s linear;
+}
+
+.card-box:hover {
+	cursor: pointer;
+	background: var(--gray-6);
+}

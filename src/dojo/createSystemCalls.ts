@@ -92,10 +92,33 @@ export function createSystemCalls(
         }
     };
 
+    const battleParties = async (account: AccountInterface,  partyId1: bigint, partyId2: bigint) => {
+        const random = randomIntFromInterval(1, 10000000);
+        try {
+            const { transaction_hash } = await client.stage_actions.battleParties({
+                account,
+                partyId1,
+                partyId2,
+                randomness: BigInt(random)
+            });
+
+            console.log(
+                await account.waitForTransaction(transaction_hash, {
+                    retryInterval: 1000,
+                })
+            );
+
+            await new Promise((resolve) => setTimeout(resolve, 1000));
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
     return {
         spawnPlayer,
         createCharacter,
         createParty,
-        toggleParty
+        toggleParty,
+        battleParties
     };
 }
