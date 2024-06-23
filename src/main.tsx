@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 
 import App from './App.tsx'
-import { setup } from "./dojo/generated/setup.ts";
+import { TORII_URL, setup } from "./dojo/generated/setup.ts";
 import { DojoProvider } from "./dojo/DojoContext.tsx";
 import { dojoConfig } from "../dojoConfig.js";
 import { Spinner } from "@radix-ui/themes";
@@ -26,7 +26,7 @@ async function init() {
   const setupResult = await setup(dojoConfig);
 
   const client = new ApolloClient({
-    uri: `${setupResult.config.toriiUrl}/graphql}`,
+    uri: `${TORII_URL}/graphql}`,
     cache: new InMemoryCache(),
   });
 
