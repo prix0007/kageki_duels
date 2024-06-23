@@ -67,13 +67,14 @@ export async function setupWorld(provider: DojoProvider) {
 
     function stage_actions() {
         const battleParties = async ({ 
-            account, partyId1, partyId2, randomness 
-        }: { account: AccountInterface, partyId1: bigint, partyId2: bigint, randomness: bigint   }) => {
+            account, p1, partyId1, p2, partyId2, randomness 
+        }: { account: AccountInterface, p1: bigint, partyId1: bigint, p2: bigint, partyId2: bigint, randomness: bigint   }) => {
+            console.log(provider)
             try {
                 return await provider.execute(account, {
-                    contractName: "actions",
+                    contractAddress: "0x49e449a9e5f0d7aa2e4e26ec48928e6d9f75f75bc1020c803a45f67298a1cd5",
                     entrypoint: "stage_creation_battle_maker",
-                    calldata: [partyId1, partyId2, randomness],
+                    calldata: [p1, partyId1, p2, partyId2, randomness],
                 });
             } catch (error) {
                 console.error("Error executing spawn:", error);

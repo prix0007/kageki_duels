@@ -1,7 +1,8 @@
 import { BurnerAccount, useBurnerManager } from "@dojoengine/create-burner";
 import { ReactNode, createContext, useContext, useMemo } from "react";
 import { Account } from "starknet";
-import { SetupResult } from "./generated/setup";
+import { ACCOUNTS, MASTER_ACCOUNT_ADDRESS, MASTER_PRIVATE_KEY, SetupResult } from "./generated/setup";
+import { useAccount } from "@starknet-react/core";
 
 interface DojoContextType extends SetupResult {
     masterAccount: Account;
@@ -22,38 +23,34 @@ export const DojoProvider = ({
 
     const {
         config: { masterAddress, masterPrivateKey },
-        burnerManager,
         dojoProvider,
     } = value;
 
+    // const { account } = useAccount()
+
+    const account = useMemo(() => {
+        const random = ACCOUNTS[Math.floor((Math.random() * 1000) % 3)]
+        const random_account = new Account(
+            dojoProvider.provider,
+            random.account,
+            random.private,
+            "1"
+        )
+        return random_account
+    }, [dojoProvider.provider])
+
     const masterAccount = useMemo(
-        () =>
-            new Account(
+        () => {
+            return new Account(
                 dojoProvider.provider,
-                masterAddress,
-                masterPrivateKey,
+                MASTER_ACCOUNT_ADDRESS,
+                MASTER_PRIVATE_KEY,
                 "1"
-            ),
+            )
+        },
         [masterAddress, masterPrivateKey, dojoProvider.provider]
     );
 
-    const {
-        create,
-        list,
-        get,
-        select,
-        deselect,
-        remove,
-        clear,
-        account,
-        isDeploying,
-        count,
-        copyToClipboard,
-        applyFromClipboard,
-        checkIsDeployed,
-    } = useBurnerManager({
-        burnerManager,
-    });
 
     return (
         <DojoContext.Provider
@@ -61,19 +58,7 @@ export const DojoProvider = ({
                 ...value,
                 masterAccount,
                 account: {
-                    create,
-                    list,
-                    get,
-                    select,
-                    deselect,
-                    remove,
-                    clear,
                     account: account ? account : masterAccount,
-                    isDeploying,
-                    count,
-                    copyToClipboard,
-                    applyFromClipboard,
-                    checkIsDeployed,
                 },
             }}
         >

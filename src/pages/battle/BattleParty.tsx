@@ -75,10 +75,11 @@ const BattleParty: React.FC<IBattleParty> = ({
 	}, [cards])
 	return <Box className={["card-box", isSelected ? "selected" : ""].join(" ")} onClick={() => toggleSelection()}>
 		<Flex direction={"column"} p={"2"} m={"3"} gap={"2"} width={"max-width"}>
-		<Flex gap={"2"}>
+		<Flex gap={"2"} wrap={"wrap"}>
 				<Heading size={"3"}>
 					Party ID: {partyId?.toString()}
 				</Heading>
+				<Badge color="gray">Owner: {player?.toString()}</Badge>
 				<Badge color="red">Total <LuSword />{totalStats?.power}</Badge>
 				<Badge color="green">Total <MdOutlineHealthAndSafety/>{totalStats?.health}</Badge>
 			</Flex>

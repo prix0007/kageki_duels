@@ -15,13 +15,16 @@ import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import './index.css'
 import "@fontsource/permanent-marker/400.css"; 
 
+import { StarknetProvider } from "./components/starknet-provider";
 
 
 async function init() {
   const rootElement = document.getElementById("root");
   if (!rootElement) throw new Error("React root not found");
   const root = ReactDOM.createRoot(rootElement as HTMLElement);
+
   const setupResult = await setup(dojoConfig);
+
   const client = new ApolloClient({
     uri: `${setupResult.config.toriiUrl}/graphql}`,
     cache: new InMemoryCache(),
@@ -31,13 +34,15 @@ async function init() {
 
   root.render(
     <React.StrictMode>
-      <DojoProvider value={setupResult}>
-        <ApolloProvider client={client}>
-          <Theme accentColor='orange' hasBackground={false}>
-            <App />
-          </Theme>
-        </ApolloProvider>
-      </DojoProvider>
+      <StarknetProvider>
+        <DojoProvider value={setupResult}>
+          <ApolloProvider client={client}>
+            <Theme accentColor='orange' hasBackground={false}>
+              <App />
+            </Theme>
+          </ApolloProvider>
+        </DojoProvider>
+      </StarknetProvider>
     </React.StrictMode>
   );
 }

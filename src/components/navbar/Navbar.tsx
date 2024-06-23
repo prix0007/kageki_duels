@@ -2,8 +2,8 @@ import React from "react";
 import { Avatar, Flex, Link as RadixLink, Tooltip } from "@radix-ui/themes";
 import { Link } from "react-router-dom";
 import Logo from "../logo/Logo";
-import ConnectWallet from "../wallet/connect-wallet";
-import Dynamic from "../dynamic/dynamic";
+// import ConnectWallet from "../wallet/connect-wallet";
+// import Dynamic from "../dynamic/dynamic";
 import { FaHome } from "react-icons/fa";
 import { GiJetFighter } from "react-icons/gi";
 
@@ -33,7 +33,7 @@ const Navbar:React.FC = () => {
           <Avatar fallback={"Me"} variant="soft" radius="full" />
         </RadixLink>
       </Link>
-      <Dynamic />
+      {/* <Dynamic /> */}
     </Flex>
   </Flex>
 }

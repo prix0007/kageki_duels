@@ -12,6 +12,18 @@ import KagekiCard from "../../components/card/card";
 import Party from "../../components/party/party";
 
 const Player:React.FC = () => {
+	const { account } = useDojo();
+	if(!account?.account?.address) {
+		return <Flex p={"6"} direction={"column"} gap={"2"} justify={"center"} align={"center"}>
+			<Heading as="h1">Kageki</Heading>		
+			<Heading as="h4">Connect your wallet to start playing</Heading>		
+		</Flex>
+	} else {
+		return <PlayerWrapper />
+	}
+}
+
+const PlayerWrapper:React.FC = () => {
 
 	const { 
 		setup: {
@@ -36,9 +48,10 @@ const Player:React.FC = () => {
 
 	const cards = useMemo(() => {
 		const total_cards = BigInt(playerCardCount?.total ?? "0");
+		// console.log(total_cards, player, account?.account.address)
 		const cardsFetched = []
 		for (let i: bigint = 0n; i < total_cards; i+=1n) {
-			const cardEntity = getEntityIdFromKeys([BigInt(player?.player ?? "0n"), BigInt(i)]) as Entity;
+			const cardEntity = getEntityIdFromKeys([BigInt(player?.player ?? "0"), i]) as Entity;
 			const card = getComponentValue(Card, cardEntity);
 			cardsFetched.push(card);
 		}

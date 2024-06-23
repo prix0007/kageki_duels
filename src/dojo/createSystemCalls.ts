@@ -1,13 +1,11 @@
 import { AccountInterface } from "starknet";
-import { Entity, getComponentValue } from "@dojoengine/recs";
 import { ClientComponents } from "./createClientComponents";
-import { getEntityIdFromKeys } from "@dojoengine/utils";
 import { ContractComponents } from "./generated/contractComponents";
 import type { IWorld } from "./generated/generated";
 
 export type SystemCalls = ReturnType<typeof createSystemCalls>;
 
-function randomIntFromInterval(min, max) { // min and max included 
+function randomIntFromInterval(min: number, max: number) { // min and max included 
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
@@ -92,12 +90,14 @@ export function createSystemCalls(
         }
     };
 
-    const battleParties = async (account: AccountInterface,  partyId1: bigint, partyId2: bigint) => {
+    const battleParties = async (account: AccountInterface, p1: bigint,  partyId1: bigint, p2: bigint, partyId2: bigint) => {
         const random = randomIntFromInterval(1, 10000000);
         try {
             const { transaction_hash } = await client.stage_actions.battleParties({
                 account,
+                p1,
                 partyId1,
+                p2,
                 partyId2,
                 randomness: BigInt(random)
             });

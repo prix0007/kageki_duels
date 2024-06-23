@@ -13,6 +13,16 @@ import BattleParty from "./BattleParty";
 import { useParties } from "../../hooks/useParties";
 
 const Battle:React.FC = () => {
+	const { account } = useDojo();
+
+	if(!account?.account?.address) {
+		return <Heading>Connect your wallet to get started</Heading>
+	} else {
+		return <BattleWrapper />
+	}
+}
+
+const BattleWrapper:React.FC = () => {
 	const { 
 		setup: {
 			systemCalls: { battleParties },
@@ -22,7 +32,7 @@ const Battle:React.FC = () => {
 	} = useDojo();
 
 	const entityId = getEntityIdFromKeys([
-		BigInt(account?.account.address),
+		BigInt(account?.account?.address),
 	]) as Entity;
 
 
@@ -43,20 +53,14 @@ const Battle:React.FC = () => {
 		return partiesFetched
 		}, [player, PlayerParty])
 
-	const [selectedMyParty, setSelectedMyParty] = useState<bigint | undefined>()
-	const [selectedOpponentParty, setSelectedOpponentParty] = useState<bigint | undefined>()
-
-	const activeMyParty = useMemo(() => {
-		return active_parties.find(party => party.partyId === selectedMyParty)
-	}, [selectedMyParty, active_parties])
-
-	const activeOpponentParty = useMemo(() => {
-		return all_opponent_parties.find(party => party.partyId === selectedOpponentParty)
-	}, [selectedOpponentParty, all_opponent_parties])
+	const [selectedMyParty, setSelectedMyParty] = useState<any | undefined>()
+	const [selectedOpponentParty, setSelectedOpponentParty] = useState<any | undefined>()
 
 	const handleBattle = async () => {
-		if(activeMyParty && activeOpponentParty) {
-			await battleParties(account?.account, activeMyParty.partyId, activeOpponentParty.partyId)
+		if(selectedMyParty && selectedOpponentParty) {
+			await battleParties(account?.account, selectedMyParty?.player, selectedMyParty?.partyId, selectedOpponentParty?.player, selectedOpponentParty?.partyId)
+			setSelectedMyParty(undefined)
+			setSelectedOpponentParty(undefined)
 		} else {
 			alert("select one of your party and opponent party to battle");
 		}
@@ -77,12 +81,15 @@ const Battle:React.FC = () => {
 
 				<ScrollArea type="always" scrollbars="vertical" style={{ height: 600, background: "var(--orange-a3)" }}>
 					{active_parties?.map(party => {
-						return <BattleParty {...party} isSelected={selectedMyParty === party.partyId} toggleSelection={() => {
-							if(selectedMyParty === party.partyId) {
-								setSelectedMyParty(undefined)
-							} else {
-								setSelectedMyParty(party.partyId)
-							}	
+						return <BattleParty 
+							{...party} 
+							isSelected={selectedMyParty?.partyId === party.partyId} 
+							toggleSelection={() => {
+								if(selectedMyParty?.partyId === party.partyId) {
+									setSelectedMyParty(undefined)
+								} else {
+									setSelectedMyParty(party)
+								}	
 						}}/>
 					})}
 				</ScrollArea>
@@ -93,12 +100,15 @@ const Battle:React.FC = () => {
 				</Flex>
 				<ScrollArea type="always" scrollbars="vertical" style={{ height: 600, background: "var(--orange-a3)" }}>
 					{all_opponent_parties?.map(party => {
-						return <BattleParty {...party} isSelected={selectedOpponentParty === party.partyId} toggleSelection={() => {
-							if(selectedOpponentParty === party.partyId) {
-								setSelectedOpponentParty(undefined)
-							} else {
-								setSelectedOpponentParty(party.partyId)
-							}	
+						return <BattleParty {...party} 
+							isSelected={
+								selectedOpponentParty?.partyId === party.partyId && selectedOpponentParty?.owner === party.owner } 
+							toggleSelection={() => {
+								if(selectedOpponentParty === party.partyId) {
+									setSelectedOpponentParty(undefined)
+								} else {
+									setSelectedOpponentParty(party)
+								}	
 						}}/>
 					})}
 				</ScrollArea>
@@ -106,14 +116,14 @@ const Battle:React.FC = () => {
 		</Grid>
 		<Grid columns={"2"} gap={"3"} my={"4"}>
 			<Flex align={"center"} justify={"center"}>
-				{ activeMyParty 
-					? <BattleParty {...activeMyParty} isSelected={true} toggleSelection={() => {}}/> 
+				{ selectedMyParty 
+					? <BattleParty {...selectedMyParty} isSelected={true} toggleSelection={() => {}}/> 
 					: <Heading>Select a party to Battle</Heading> 
 				}
 			</Flex>
 			<Flex align={"center"} justify={"center"}>
-				{ activeOpponentParty
-					? <BattleParty {...activeOpponentParty} isSelected={true} toggleSelection={() => {}}/> 
+				{ selectedOpponentParty
+					? <BattleParty {...selectedOpponentParty} isSelected={true} toggleSelection={() => {}}/> 
 					: <Heading>Select an opponent to Battle</Heading> 
 				}
 			</Flex>
@@ -122,7 +132,7 @@ const Battle:React.FC = () => {
 			<Button 
 				color="red" 
 				style={{width: "100%", minHeight: "4em"}} 
-				disabled={!!activeMyParty && !!activeOpponentParty}
+				disabled={!selectedMyParty && !selectedOpponentParty}
 				onClick={handleBattle}
 			>
 				Battle <LuSwords />
