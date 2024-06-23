@@ -11,6 +11,7 @@
     "create-components": "npx @dojoengine/core ../kageki-duels-dojo/manifests/dev/manifest.json src/dojo/generated/contractComponents.ts  http://localhost:5050 0x21fc8b30c72425f7dcdc97f39e8db73a27e131018ae3f031c3394101354ea8c"
   },
   "dependencies": {
+    "@apollo/client": "^3.10.6",
     "@dojoengine/core": "0.7.4",
     "@dojoengine/create-burner": "0.7.4",
     "@dojoengine/react": "0.7.4",
@@ -27,6 +28,7 @@
     "@starknet-react/core": "^2.8.2",
     "framer-motion": "^11.2.10",
     "get-starknet-core": "^3.3.0",
+    "graphql": "^16.9.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^5.2.1",
