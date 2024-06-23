@@ -1000,12 +1000,12 @@
       }
     ],
     "address": "0x21fc8b30c72425f7dcdc97f39e8db73a27e131018ae3f031c3394101354ea8c",
-    "transaction_hash": "0x78bb64aec52f5b13e924ea88a869bb329627446ea3af9faf9a93de5fa24bc57",
+    "transaction_hash": "0x103e90fad84dfc87c47a0b9aa8a1b1f1a478e318bfc7b9f1da9e45266f41e3e",
     "block_number": 3,
     "seed": "kageki_duels",
     "metadata": {
       "profile_name": "dev",
-      "rpc_url": "http://0.0.0.0:5050/"
+      "rpc_url": "https://api.cartridge.gg/x/kageki/katana"
     },
     "name": "dojo::world::world"
   },
@@ -1235,8 +1235,8 @@
     {
       "kind": "DojoContract",
       "address": "0x49e449a9e5f0d7aa2e4e26ec48928e6d9f75f75bc1020c803a45f67298a1cd5",
-      "class_hash": "0x378bfced81b3f836536f9c40b02e3ac4f44a1ac1d1eb67e9aadfcb0750cd6f4",
-      "original_class_hash": "0x378bfced81b3f836536f9c40b02e3ac4f44a1ac1d1eb67e9aadfcb0750cd6f4",
+      "class_hash": "0x1b4a2f07b20827e6639056f1ee22c3eb22f27fdaa30fe9ce9a27e924c46eee",
+      "original_class_hash": "0x1b4a2f07b20827e6639056f1ee22c3eb22f27fdaa30fe9ce9a27e924c46eee",
       "base_class_hash": "0x22f3e55b61d86c2ac5239fa3b3b8761f26b9a5c0b5f61ddbd5d756ced498b46",
       "abi": [
         {

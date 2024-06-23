@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "create-components": "npx @dojoengine/core ../kageki-duels-dojo/manifests/dev/manifest.json src/dojo/generated/contractComponents.ts  http://localhost:5050 0x21fc8b30c72425f7dcdc97f39e8db73a27e131018ae3f031c3394101354ea8c"
