@@ -51,6 +51,7 @@ const BattleParty: React.FC<IBattleParty> = ({
 			clientComponents: { Card },
 		}} = useDojo();
 
+
 	const cards = useMemo(() => {
 		const cardIds = [card1, card2, card3, card4]
 

@@ -5,6 +5,7 @@ import { Entity, getComponentValue } from "@dojoengine/recs";
 import { getEntityIdFromKeys } from "@dojoengine/utils";
 import { useComponentValue } from "@dojoengine/react";
 import { useDojo } from "../../dojo/useDojo";
+import { useNavigate } from "react-router-dom";
 
 import { LuSwords } from "react-icons/lu";
 
@@ -35,6 +36,7 @@ const BattleWrapper:React.FC = () => {
 		BigInt(account?.account?.address),
 	]) as Entity;
 
+	const navigate = useNavigate();
 
 	const player = useComponentValue(Player, entityId);
 
@@ -61,6 +63,7 @@ const BattleWrapper:React.FC = () => {
 			await battleParties(account?.account, selectedMyParty?.player, selectedMyParty?.partyId, selectedOpponentParty?.player, selectedOpponentParty?.partyId)
 			setSelectedMyParty(undefined)
 			setSelectedOpponentParty(undefined)
+			navigate("/home")
 		} else {
 			alert("select one of your party and opponent party to battle");
 		}
