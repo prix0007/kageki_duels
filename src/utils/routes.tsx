@@ -1,5 +1,5 @@
 import {
-  createBrowserRouter,
+  createHashRouter,
 } from "react-router-dom";
 
 // Pages
@@ -8,7 +8,7 @@ import Player from "../pages/player/player";
 import { MainAppWrapper } from "../pages/main/main_wrapper";
 import Battle from "../pages/battle/battle";
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
     path: "/",
     element: <MainAppWrapper />,
